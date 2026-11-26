@@ -44,8 +44,8 @@ export default function WorkspaceOverview() {
           {ws.files.map((f) => (
             <li key={f.id} className="flex items-center justify-between py-2">
               {f.type === "Document"
-  ? <Link to={`/w/${id}/doc/${f.id}`} className="flex items-center gap-2 font-medium hover:text-brand-600"><FileIcon type={f.type} />{f.name}</Link>
-  : <span className="flex items-center gap-2 font-medium" title="Editor not in prototype yet"><FileIcon type={f.type} />{f.name}</span>}
+                ? <Link to={`/w/${id}/doc/${f.id}`} className="flex items-center gap-2 font-medium hover:text-brand-600"><FileIcon type={f.type} />{f.name}</Link>
+                : <span className="flex items-center gap-2 font-medium" title="Editor not in prototype yet"><FileIcon type={f.type} />{f.name}</span>}
               <span className="text-slate-400">{f.type} · {f.updated}</span>
             </li>
           ))}

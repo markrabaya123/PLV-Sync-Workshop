@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useStore } from "../store";
 import { User, CalendarDays, Trash2 } from "lucide-react";
+import useIsMobile from "../hooks/useIsMobile";
 
 const COLS = ["To Do", "In Progress", "Done"];
 
@@ -11,6 +12,8 @@ export default function Kanban() {
   const ws = getWs(id);
   const [f, setF] = useState({ title: "", assignee: ws.members[0]?.name || "", due: "" });
   const [filter, setFilter] = useState("All");
+  const mobile = useIsMobile();
+  const [tab, setTab] = useState("To Do");
 
   const add = (e) => {
     e.preventDefault();
@@ -38,9 +41,18 @@ export default function Kanban() {
           {ws.members.map((m) => <option key={m.id}>{m.name}</option>)}
         </select>
       </div>
-
+      {mobile && (
+        <div className="flex rounded-lg bg-slate-200 p-1">
+          {COLS.map((c) => (
+            <button key={c} onClick={() => setTab(c)}
+              className={`flex-1 rounded-md py-2 text-sm font-medium ${tab === c ? "bg-white text-brand-700 shadow" : "text-slate-600"}`}>
+              {c} ({ws.tasks.filter((t) => t.status === c).length})
+            </button>
+          ))}
+        </div>
+      )}
       <div className="grid gap-4 md:grid-cols-3">
-        {COLS.map((col) => (
+        {(mobile ? [tab] : COLS).map((col) => (
           <div key={col} className="rounded-xl bg-slate-100 p-3"
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => moveTask(id, e.dataTransfer.getData("tid"), col)}>

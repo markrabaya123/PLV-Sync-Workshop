@@ -9,13 +9,17 @@ import DocumentEditor from "./pages/DocumentEditor";
 import Kanban from "./pages/Kanban";
 import AIAssistant from "./pages/AIAssistant";
 import Members from "./pages/Members";
+import MobileShell from "./components/MobileShell";
+import useIsMobile from "./hooks/useIsMobile";
 
 export default function App() {
-  return (
+const mobile = useIsMobile();
+const Layout = mobile ? MobileShell : Shell;
+  return (   
     <Routes>
       <Route path="/login" element={<Auth mode="login" />} />
       <Route path="/register" element={<Auth mode="register" />} />
-      <Route element={<Shell />}>
+     <Route element={<Layout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/workspaces" element={<Workspaces />} />
         <Route path="/w/:id" element={<WorkspaceLayout />}>
